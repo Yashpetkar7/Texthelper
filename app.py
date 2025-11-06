@@ -30,7 +30,13 @@ if not validate_extension(filename.suffix):
     st.error("Only .txt files are supported.")
     st.stop()
 
-text = uploaded.read().decode("utf-8")
+# try decode safely
+raw = uploaded.read()
+try:
+    text = raw.decode("utf-8")
+except Exception:
+    text = raw.decode("latin-1")
+
 if "text" not in st.session_state:
     st.session_state.text = text
 
